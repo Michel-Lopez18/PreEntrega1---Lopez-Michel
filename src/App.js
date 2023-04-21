@@ -1,33 +1,21 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import NavBarComponent from "./components/NavBarComponent";
-import ItemListContainer from "./components/ItemListContainer";
-import CardComponent from "./card/CardComponent";
-import { Fragment, useEffect, useState } from "react";
-import useFetch from "./utils/useFetch";
-const BASE_URL = "https://fakestoreapi.com/products";
+import ProductsViews from "./views/ProductsViews";
+
+import CategoriaViews from "./views/CategoriaViews";
+import DetalleViews from "./views/DetalleViews";
 
 function App() {
-  const [data, loading] = useFetch(BASE_URL);
-  console.log(loading);
   return (
-    <Fragment>
-      <div>
-        <NavBarComponent />
-        <ItemListContainer saludo={"Hola, bienvenido a mi ecommerce!"} />
-
-        {loading ? (
-          <h1>Cargando</h1>
-        ) : (
-          data.map((producto, index) => {
-            return (
-              <div key={index}>
-                <CardComponent data={producto} />
-              </div>
-            );
-          })
-        )}
-      </div>
-    </Fragment>
+    <BrowserRouter>
+      <NavBarComponent />
+      <Routes>
+        <Route path="/" element={<ProductsViews />} />
+        <Route path="/categorias/:categoria" element={<CategoriaViews />} />
+        <Route path="/product/:id" element={<DetalleViews />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
